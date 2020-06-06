@@ -1,15 +1,19 @@
-package com.aliprojects.moviesdatabase.model.ui;
+package com.aliprojects.moviesdatabase.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliprojects.moviesdatabase.R;
 import com.aliprojects.moviesdatabase.model.Movie;
+import com.aliprojects.moviesdatabase.utils.MovieClient;
+import com.bumptech.glide.Glide;
 
+import java.net.URL;
 import java.util.List;
 
 public class MovieAdapter extends
@@ -22,17 +26,16 @@ public class MovieAdapter extends
 
     private List<Movie> movieList;
 
-    private OnItemClickListener onItemClickListener;
+    private OnMovieClickListener onMovieClickListener;
 
-    public MovieAdapter(Context context, List<Movie> list,
 
-                        OnItemClickListener onItemClickListener) {
+    public MovieAdapter(Context context,
+                        OnMovieClickListener onMovieClickListener) {
 
         this.context = context;
 
-        this.movieList = list;
 
-        this.onItemClickListener = onItemClickListener;
+        this.onMovieClickListener = onMovieClickListener;
 
     }
 
@@ -55,10 +58,16 @@ public class MovieAdapter extends
     @Override
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         Movie item = movieList.get(position);
 
-        holder.bind(item, onItemClickListener);
+        if (item.getPosterPath() != null && !item.getPosterPath().isEmpty()) {
+
+            URL url = MovieClient.buildImageUrl(item.getPosterPath());
+            Glide.with(context).load(url.toString()).error(R.drawable.ic_launcher_background).into(holder.imageViewMovie);
+
+
+        }
+        holder.bind(item, onMovieClickListener);
 
     }
 
@@ -72,23 +81,29 @@ public class MovieAdapter extends
 
     }
 
-    public interface OnItemClickListener {
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
+        notifyDataSetChanged();
+    }
 
-        void onItemClick(int position);
+    public interface OnMovieClickListener {
+
+        void onItemClick(Movie movie);
 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewMovie;
 
         public ViewHolder(View itemView) {
-
             super(itemView);
+            imageViewMovie = itemView.findViewById(R.id.movie_img);
 
         }
 
-        public void bind(final Movie model,
+        public void bind(final Movie movie,
 
-                         final OnItemClickListener listener) {
+                         final OnMovieClickListener listener) {
 
             itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -96,7 +111,7 @@ public class MovieAdapter extends
 
                 public void onClick(View v) {
 
-                    listener.onItemClick(getLayoutPosition());
+                    listener.onItemClick(movie);
 
                 }
 
