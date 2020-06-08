@@ -1,5 +1,6 @@
 package com.aliprojects.moviesdatabase.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aliprojects.moviesdatabase.MovieDetailsActivity;
 import com.aliprojects.moviesdatabase.R;
 import com.aliprojects.moviesdatabase.databinding.ActivityMainBinding;
 import com.aliprojects.moviesdatabase.model.Movie;
@@ -18,6 +20,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String MOVIE_BUNDLE_KEY = "com.aliprojects.moviesdatabase.ui.movie_details";
     MovieAdapter movieAdapter;
     MovieViewModel movieViewModel;
     private ActivityMainBinding mainBinding;
@@ -52,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     @Override
     public void onItemClick(Movie movie) {
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(MOVIE_BUNDLE_KEY, movie);
+        intent.putExtra(MOVIE_BUNDLE_KEY, bundle);
+        startActivity(intent);
 
     }
 }
