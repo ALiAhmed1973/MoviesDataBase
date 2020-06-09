@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,6 @@ import com.aliprojects.moviesdatabase.MovieDetailsActivity;
 import com.aliprojects.moviesdatabase.R;
 import com.aliprojects.moviesdatabase.databinding.ActivityMainBinding;
 import com.aliprojects.moviesdatabase.model.Movie;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
 
@@ -36,14 +33,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
 
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-        movieViewModel.getMovies();
+        movieViewModel.getMovies().observe(this, movies -> movieAdapter.setMovieList(movies));
 
-        movieViewModel.moviesMutableLiveData.observe(this, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                movieAdapter.setMovieList(movies);
-            }
-        });
 
         movieAdapter = new MovieAdapter(this, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false);

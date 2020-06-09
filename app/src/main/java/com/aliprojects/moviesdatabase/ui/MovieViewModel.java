@@ -16,9 +16,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MovieViewModel extends ViewModel {
-    MutableLiveData<List<Movie>> moviesMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Movie>> moviesMutableLiveData = new MutableLiveData<>();
 
-    public void getMovies() {
+    private void getDataResponse() {
         MovieClient.getINSTANCE().getMovies().enqueue(new Callback<ResponseResult>() {
             @Override
             public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
@@ -31,5 +31,10 @@ public class MovieViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public MutableLiveData<List<Movie>> getMovies() {
+        getDataResponse();
+        return moviesMutableLiveData;
     }
 }
