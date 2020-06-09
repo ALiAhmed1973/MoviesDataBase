@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.aliprojects.moviesdatabase.databinding.ActivityMovieDetailsBinding;
 import com.aliprojects.moviesdatabase.model.Movie;
 import com.aliprojects.moviesdatabase.ui.MainActivity;
+import com.aliprojects.moviesdatabase.utils.MovieClient;
+import com.bumptech.glide.Glide;
 
+import java.net.URL;
 import java.util.Objects;
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -34,5 +37,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieDetailsBinding.overviewTv.setText(movie.getMovieOverview());
         movieDetailsBinding.ratingTv.setText(String.valueOf(movie.getMovieRating()));
         movieDetailsBinding.releasedateTv.setText(movie.getReleaseDate());
+
+        URL url = MovieClient.buildImageUrl(movie.getPosterPath());
+        Glide.with(this).load(url.toString()).error(R.drawable.ic_launcher_background).into(movieDetailsBinding.movieDetailsImg);
     }
 }
