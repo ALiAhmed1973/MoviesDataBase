@@ -2,8 +2,12 @@ package com.aliprojects.moviesdatabase.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -51,6 +55,26 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         bundle.putParcelable(MOVIE_BUNDLE_KEY, movie);
         intent.putExtra(MOVIE_BUNDLE_KEY, bundle);
         startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.string.most_popular:
+                return true;
+            case R.string.top_rated_movies:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 }
