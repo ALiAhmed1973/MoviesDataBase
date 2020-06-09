@@ -15,7 +15,7 @@ public class MovieClient {
 
     public final static String API_KEY_PARAM = "api_key";
     private static final String BASE_MOVIES_URL = "https://api.themoviedb.org/";
-    private static final String API_KEY_VALUE = "630161aff460e2b14689983c03e19a6f";
+    private static final String API_KEY_VALUE = "";
     private static final String IMAGE_MOVIE_BASE = "http://image.tmdb.org/t/p/";
     private final static String IMAGE_SIZE = "w185";
 
