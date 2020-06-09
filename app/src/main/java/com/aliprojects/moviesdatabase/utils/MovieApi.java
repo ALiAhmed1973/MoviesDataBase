@@ -9,5 +9,11 @@ import retrofit2.http.Query;
 public interface MovieApi {
 
     @GET("3/discover/movie")
-    public Call<ResponseResult> getMovies(@Query("api_key") String key);
+    public Call<ResponseResult> getMovies(@Query(MovieClient.API_KEY_PARAM) String key);
+
+    @GET("3/movie/popular")
+    public Call<ResponseResult> getMostPopularMovies(@Query(MovieClient.API_KEY_PARAM) String key);
+
+    @GET("3/movie/top_rated")
+    public Call<ResponseResult> getTopRatedMovies(@Query(MovieClient.API_KEY_PARAM) String key);
 }

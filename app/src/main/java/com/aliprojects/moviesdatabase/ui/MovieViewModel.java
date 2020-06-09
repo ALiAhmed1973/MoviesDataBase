@@ -18,8 +18,23 @@ import retrofit2.Response;
 public class MovieViewModel extends ViewModel {
     private MutableLiveData<List<Movie>> moviesMutableLiveData = new MutableLiveData<>();
 
-    private void getDataResponse() {
+    public void getMoviesDataResponse() {
         MovieClient.getINSTANCE().getMovies().enqueue(new Callback<ResponseResult>() {
+            @Override
+            public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
+                moviesMutableLiveData.setValue(response.body().getMovies());
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseResult> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getMostPopularResponse() {
+        MovieClient.getINSTANCE().getMostPopularMovies().enqueue(new Callback<ResponseResult>() {
             @Override
             public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
                 moviesMutableLiveData.setValue(response.body().getMovies());
@@ -31,10 +46,24 @@ public class MovieViewModel extends ViewModel {
 
             }
         });
+
+    }
+
+    public void getTopRatedResponse() {
+        MovieClient.getINSTANCE().getTopRatedMovies().enqueue(new Callback<ResponseResult>() {
+            @Override
+            public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
+                moviesMutableLiveData.setValue(response.body().getMovies());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseResult> call, Throwable t) {
+
+            }
+        });
     }
 
     public MutableLiveData<List<Movie>> getMovies() {
-        getDataResponse();
         return moviesMutableLiveData;
     }
 }

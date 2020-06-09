@@ -42,6 +42,14 @@ public class MovieClient {
         return movieApi.getMovies(API_KEY_VALUE);
     }
 
+    public Call<ResponseResult> getMostPopularMovies() {
+        return movieApi.getMostPopularMovies(API_KEY_VALUE);
+    }
+
+    public Call<ResponseResult> getTopRatedMovies() {
+        return movieApi.getTopRatedMovies(API_KEY_VALUE);
+    }
+
     public static URL buildImageUrl(String imagePath) {
         Uri builtUri = Uri.parse(IMAGE_MOVIE_BASE).buildUpon().
                 appendPath(IMAGE_SIZE).

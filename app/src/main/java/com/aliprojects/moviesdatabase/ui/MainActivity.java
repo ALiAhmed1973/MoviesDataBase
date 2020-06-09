@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
 
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-        movieViewModel.getMovies().observe(this, movies -> movieAdapter.setMovieList(movies));
+        movieViewModel.getMoviesDataResponse();
+        movieViewModel.getMovies().observe(this, movies -> {
+            movieAdapter.setMovieList(movies);
+        });
 
 
         movieAdapter = new MovieAdapter(this, this);
@@ -68,9 +71,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.string.most_popular:
+            case R.id.action_most_popular:
+                movieViewModel.getMostPopularResponse();
                 return true;
-            case R.string.top_rated_movies:
+            case R.id.action_top_rated:
+                movieViewModel.getTopRatedResponse();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
