@@ -38,22 +38,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         View view = mainBinding.getRoot();
         setContentView(view);
 
-
-        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-        if (savedInstanceState == null) {
-            movieViewModel.getMoviesDataResponse();
-        } else {
-            //  restoreRecyclerviewScrollPosition();
-        }
+        MovieViewModelFactory viewModelFactory = new MovieViewModelFactory(this);
+        movieViewModel = new ViewModelProvider(this, viewModelFactory).get(MovieViewModel.class);
+//
         movieAdapter = new MovieAdapter(this, this);
-        movieAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
+        movieAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.ALLOW);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false);
         mainBinding.movieRv.setLayoutManager(gridLayoutManager);
         mainBinding.movieRv.setAdapter(movieAdapter);
 
-        movieViewModel.getMovies().observe(this, movies -> {
-            movieAdapter.setMovieList(movies);
-        });
+        movieViewModel.getMovies().observe(this, movies -> movieAdapter.setMovieList(movies));
 
 
     }

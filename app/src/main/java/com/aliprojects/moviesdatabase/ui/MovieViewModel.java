@@ -1,6 +1,6 @@
 package com.aliprojects.moviesdatabase.ui;
 
-import android.util.Log;
+import android.content.Context;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,8 +17,14 @@ import retrofit2.Response;
 
 public class MovieViewModel extends ViewModel {
     private MutableLiveData<List<Movie>> moviesMutableLiveData = new MutableLiveData<>();
+    Context context;
 
-    public void getMoviesDataResponse() {
+    public MovieViewModel(Context context) {
+        this.context = context;
+        getMoviesDataResponse();
+    }
+
+    private void getMoviesDataResponse() {
         MovieClient.getINSTANCE().getMovies().enqueue(new Callback<ResponseResult>() {
             @Override
             public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
@@ -38,7 +44,7 @@ public class MovieViewModel extends ViewModel {
             @Override
             public void onResponse(Call<ResponseResult> call, Response<ResponseResult> response) {
                 moviesMutableLiveData.setValue(response.body().getMovies());
-                Log.d("ssssssssssss", response.body().getMovies().get(0).getOriginalTitle());
+
             }
 
             @Override
